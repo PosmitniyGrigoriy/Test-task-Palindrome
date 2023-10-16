@@ -127,7 +127,7 @@ class PalindromeServiceImplTest {
     @Test
     void testGetPalindromesForUser() {
         // Подготовка
-        when(palindromeRepository.getPalindromes(user)).thenReturn(List.of(PALINDROME_1, PALINDROME_2));
+        when(palindromeRepository.getPalindromes(user.getId())).thenReturn(List.of(PALINDROME_1, PALINDROME_2));
 
         // Вызов метода
         List<String> result = palindromeService.getPalindromes(user);
@@ -137,13 +137,13 @@ class PalindromeServiceImplTest {
         assertEquals(2, result.size());
         assertEquals(PALINDROME_1, result.get(0));
         assertEquals(PALINDROME_2, result.get(1));
-        verify(palindromeRepository, times(1)).getPalindromes(user);
+        verify(palindromeRepository, times(1)).getPalindromes(user.getId());
     }
 
     @Test
     public void testGetPalindromesForNonexistentUser() {
         // Подготовка
-        when(palindromeRepository.getPalindromes(user)).thenReturn(Collections.emptyList());
+        when(palindromeRepository.getPalindromes(user.getId())).thenReturn(Collections.emptyList());
 
         // Вызов метода
         List<String> actualPalindromes = palindromeService.getPalindromes(user);

@@ -17,7 +17,7 @@ public interface StatisticsRepository extends JpaRepository<StatisticsEntity, UU
     Optional<StatisticsEntity> getPlayerStatistics(@Param("user") UserEntity user);
 
     @Query(value = "SELECT COUNT(DISTINCT total_points) FROM statistics WHERE total_points >= " +
-            "(SELECT total_points FROM statistics s WHERE s.user_id = :userId);", nativeQuery = true)
+            "(SELECT total_points FROM statistics s WHERE s.user_id = :userId)", nativeQuery = true)
     Integer getPlayerPlace(UUID userId);
 
     @Query(value = "SELECT COUNT(*) FROM statistics", nativeQuery = true)

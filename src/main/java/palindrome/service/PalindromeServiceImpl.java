@@ -16,6 +16,8 @@ import palindrome.repository.PalindromeRepository;
 import java.util.List;
 import java.util.Optional;
 
+import static palindrome.utils.ConstantsUtils.*;
+
 @AllArgsConstructor
 @Service
 public class PalindromeServiceImpl implements PalindromeService {
@@ -45,12 +47,12 @@ public class PalindromeServiceImpl implements PalindromeService {
 
     @Override
     public List<String> getPalindromes(UserEntity user) {
-        return palindromeRepository.getPalindromes(user);
+        return palindromeRepository.getPalindromes(user.getId());
     }
 
     private void checkPalindromeFromRules(String palindrome) {
-        palindrome = palindrome.toLowerCase().replace(" ", "");
-        if (palindrome.equals("топот") || palindrome.equals("арозаупаланалапуазора")) {
+        palindrome = palindrome.toLowerCase().replace(WHITESPACE, EMPTY);
+        if (palindrome.equals(FIRST_PALINDROME) || palindrome.equals(SECOND_PALINDROME)) {
             throw new PalindromesFromRulesCannotBeUsedException(palindrome);
         }
     }
@@ -63,7 +65,7 @@ public class PalindromeServiceImpl implements PalindromeService {
     }
 
     private boolean isPalindrome(String palindrome) {
-        palindrome = palindrome.toLowerCase().replace(" ", "");
+        palindrome = palindrome.toLowerCase().replace(WHITESPACE, EMPTY);
         String reverseVariant = new StringBuilder(palindrome).reverse().toString();
         return palindrome.equals(reverseVariant);
     }

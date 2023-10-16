@@ -8,11 +8,14 @@ import palindrome.dto.request.PalindromeRequestDto;
 import palindrome.dto.response.StatisticsResponseDto;
 import palindrome.dto.response.UserResponseDto;
 import palindrome.entity.UserEntity;
+import palindrome.utils.MusicPlayerUtils;
 import palindrome.utils.PalindromeUtils;
 import palindrome.utils.AuthenticationUtils;
 
 import java.util.List;
 import java.util.Scanner;
+
+import static palindrome.utils.ConstantsUtils.*;
 
 @AllArgsConstructor
 @Configuration
@@ -25,6 +28,7 @@ public class Runner {
     @Bean
     public CommandLineRunner myCommandLineRunner() {
         return args -> {
+            MusicPlayerUtils.start();
             PalindromeUtils.printViewerMenu();
             Scanner scannerViewerMenu = new Scanner(System.in);
             while (scannerViewerMenu.hasNext()) {
@@ -42,14 +46,14 @@ public class Runner {
     private void registerAndPlay() {
         UserResponseDto userResponseDto = userService.register(AuthenticationUtils.fillRegistrationDto());
         UserEntity user = userService.getUser(userResponseDto.getId());
-        System.out.println("\nВы зарегистрировались в игре палиндром!\n");
+        System.out.println(YOU_REGISTERED);
         play(user);
     }
 
     private void loginAndPlay() {
         UserResponseDto userResponseDto = userService.login(AuthenticationUtils.fillLoginDto());
         UserEntity user = userService.getUser(userResponseDto.getId());
-        System.out.println("\nВы вошли в игру палиндром!\n");
+        System.out.println(YOU_ENTERED);
         play(user);
     }
 
@@ -64,7 +68,7 @@ public class Runner {
                 Scanner scannerStartGame = new Scanner(System.in);
                 while (scannerStartGame.hasNext()) {
                     String variant = scannerStartGame.nextLine();
-                    if (variant.equals("0")) {
+                    if (variant.equals(ZERO)) {
                         getPlayerStatistics(user);
                         PalindromeUtils.exit();
                     } else {

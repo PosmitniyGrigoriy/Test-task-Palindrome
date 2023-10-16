@@ -13,8 +13,8 @@ import java.util.UUID;
 
 @Repository
 public interface PalindromeRepository extends JpaRepository<PalindromeEntity, UUID> {
-    @Query("SELECT s.palindrome FROM PalindromeEntity s WHERE s.user = :user")
-    List<String> getPalindromes(@Param("user") UserEntity user);
+    @Query(value = "SELECT palindrome FROM palindromes p WHERE p.user_id = :userId ORDER BY palindrome", nativeQuery = true)
+    List<String> getPalindromes(@Param("userId") UUID userId);
 
     @Query("SELECT s.palindrome FROM PalindromeEntity s WHERE s.user = :user AND s.palindrome = :palindrome")
     Optional<PalindromeEntity> getPalindrome(@Param("user") UserEntity user, @Param("palindrome") String palindrome);
